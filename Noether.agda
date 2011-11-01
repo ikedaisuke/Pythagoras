@@ -48,4 +48,4 @@ infiniteDescent A R P h1 h2 x
                       h3 y (×-elimLeft h5) (×-elimRight h5))))
        x
 -}
--- TODO: clean the above code
+
