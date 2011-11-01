@@ -11,16 +11,6 @@ open import Relation.Binary.Core
 open import Relation.Nullary
 open import Relation.Unary
 
-∃-elim : ∀ {a b c} -> {A : Set a} -> {B : A -> Set b} -> {C : Set c}
-          (f : ∃ B) -> (g : (x : A) -> B x -> C) -> C
-∃-elim (proj₁ , proj₂) g = g proj₁ proj₂
-
-×-elimLeft : ∀ {a b} -> {A : Set a} -> {B : Set b} -> A × B -> A
-×-elimLeft (proj₁ , proj₂) = proj₁
-
-×-elimRight : ∀ {a b} -> {A : Set a} -> {B : Set b} -> A × B -> B
-×-elimRight (proj₁ , proj₂) = proj₂
-
 Noether : ∀ {a l} -> (A : Set a) -> (R : Rel A l) -> Set (suc l ⊔ a)
 Noether {_} {l} A R 
   = (P : Pred A l) -> 
@@ -32,6 +22,24 @@ infiniteDescent : ∀ {a l} -> (A : Set a) -> (R : Rel A l) ->
                   (P : Pred A l) -> Noether A R -> 
                   ((x : A) -> P x -> ∃ (λ y -> R y x × P y)) -> 
                   (z : A) -> ¬ (P z)
+infiniteDescent A R P noe f z pz
+  = noe (λ w → ¬ P w) g z pz
+      where g : (x : A) → ((y : A) → R y x → ¬ P y) → ¬ P x 
+            g x h px with f x px
+            ... | (v , k) = h v (proj₁ k) (proj₂ k)
+
+-- original proofs
+{-
+∃-elim : ∀ {a b c} -> {A : Set a} -> {B : A -> Set b} -> {C : Set c}
+          (f : ∃ B) -> (g : (x : A) -> B x -> C) -> C
+∃-elim (proj₁ , proj₂) g = g proj₁ proj₂
+
+×-elimLeft : ∀ {a b} -> {A : Set a} -> {B : Set b} -> A × B -> A
+×-elimLeft (proj₁ , proj₂) = proj₁
+
+×-elimRight : ∀ {a b} -> {A : Set a} -> {B : Set b} -> A × B -> B
+×-elimRight (proj₁ , proj₂) = proj₂
+
 infiniteDescent A R P h1 h2 x 
   = h1 (λ y → ¬ P y) 
        ((λ (z : A) (h3 : (y : A) → R y z → ¬ P y) (h4 : P z) → 
@@ -39,5 +47,5 @@ infiniteDescent A R P h1 h2 x
                    (λ (y : A) (h5 : R y z × P y) → 
                       h3 y (×-elimLeft h5) (×-elimRight h5))))
        x
-
+-}
 -- TODO: clean the above code
