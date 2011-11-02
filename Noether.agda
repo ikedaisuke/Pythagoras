@@ -22,8 +22,8 @@ infiniteDescent : ∀ {a l} -> (A : Set a) -> (R : Rel A l) ->
                   (P : Pred A l) -> Noether A R -> 
                   ((x : A) -> P x -> ∃ (λ y -> R y x × P y)) -> 
                   (z : A) -> ¬ (P z)
-infiniteDescent A R P noe f z pz
-  = noe (λ w → ¬ P w) g z pz
+infiniteDescent A R P noe f
+  = noe (λ w → ¬ P w) g
       where g : (x : A) → ((y : A) → R y x → ¬ P y) → ¬ P x 
             g x h px with f x px
             ... | (v , k) = h v (proj₁ k) (proj₂ k)
