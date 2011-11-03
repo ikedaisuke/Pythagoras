@@ -107,6 +107,5 @@ p isPrime = (x y : Carrier) -> (p divides (x ∙ y)) ->
 Square : Rel Carrier (l ⊔ a)
 Square p x = ∃ (λ y -> (p ∙ (square x)) ≈ square y)
 
-_isNotSquare : Carrier -> Rel Carrier l
-p isNotSquare = λ x y → ¬ (p ∙ square x) ≈ square y
-
+_isNotSquare : Pred Carrier (l ⊔ a)
+p isNotSquare = (x y : Carrier) → ¬ ((p ∙ square x) ≈ square y)
