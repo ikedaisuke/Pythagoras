@@ -1,0 +1,16 @@
+Author:
+Ikegami Daisuke <ikegami.da@gmail.com>
+
+An example : Translate Agda1/Alfa to Agda2
+Sqrt 2 is not rational.
+
+Links:
+Agda
+  http://wiki.portal.chalmers.se/agda/pmwiki.php
+the original proof on Agda1/Alfa
+  http://www.cs.ru.nl/~freek/comparison/files/agda.alfa
+the paper
+  http://www.cs.ru.nl/~freek/comparison/comparison.pdf
+
+Note:
+agda.alfa is written by Thierry Coquand.
