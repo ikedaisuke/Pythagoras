@@ -1,4 +1,4 @@
-module CancelativeAbelianMonoid where
+module CancellativeAbelianMonoid where
 
 {-
 The original proof is written by Thierry Coquand.
@@ -14,7 +14,7 @@ open import Relation.Binary
 
 import Cancel
 
-record IsCancelativeAbelianMonoid 
+record IsCancellativeAbelianMonoid 
          {a l} {A : Set a} (≈ : Rel A l) (_∙_ : Op₂ A)
          (ε : A) : Set (a ⊔ l) where
   open FunctionProperties ≈
@@ -25,7 +25,7 @@ record IsCancelativeAbelianMonoid
 
   open IsCommutativeMonoid isCommutativeMonoid public
 
-record CancelativeAbelianMonoid c l : Set (suc (c ⊔ l)) where
+record CancellativeAbelianMonoid c l : Set (suc (c ⊔ l)) where
   infixl 7 _∙_
   infix  4 _≈_
   field
@@ -33,9 +33,9 @@ record CancelativeAbelianMonoid c l : Set (suc (c ⊔ l)) where
     _≈_     : Rel Carrier l
     _∙_     : Op₂ Carrier
     ε       : Carrier
-    isCancelativeAbelianMonoid : IsCancelativeAbelianMonoid _≈_ _∙_ ε
+    isCancellativeAbelianMonoid : IsCancellativeAbelianMonoid _≈_ _∙_ ε
 
-  open IsCancelativeAbelianMonoid isCancelativeAbelianMonoid public
+  open IsCancellativeAbelianMonoid isCancellativeAbelianMonoid public
 
   commutativeMonoid : CommutativeMonoid c l
   commutativeMonoid 

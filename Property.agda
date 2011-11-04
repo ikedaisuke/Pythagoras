@@ -1,9 +1,9 @@
 open import Level
-open import CancelativeAbelianMonoid
+open import CancellativeAbelianMonoid
 
 module Property
 (a l : Level) 
-(m : CancelativeAbelianMonoid a l)
+(m : CancellativeAbelianMonoid a l)
 where
 
 open import Algebra
@@ -25,23 +25,23 @@ http://www.cs.ru.nl/~freek/comparison/comparison.pdf
 -}
 
 Carrier : Set a
-Carrier = CancelativeAbelianMonoid.Carrier m
+Carrier = CancellativeAbelianMonoid.Carrier m
 
 infixl 7 _∙_
 infix  4 _≈_
 
 _≈_ : Carrier -> Carrier -> Set l
-_≈_ = CancelativeAbelianMonoid._≈_ m
+_≈_ = CancellativeAbelianMonoid._≈_ m
 
 _∙_ : Carrier -> Carrier -> Carrier
-_∙_ = CancelativeAbelianMonoid._∙_ m
+_∙_ = CancellativeAbelianMonoid._∙_ m
 
 ε : Carrier
-ε = CancelativeAbelianMonoid.ε m
+ε = CancellativeAbelianMonoid.ε m
 
 ----
 semigroup : Semigroup a l
-semigroup = CancelativeAbelianMonoid.semigroup m
+semigroup = CancellativeAbelianMonoid.semigroup m
 
 isSemigroup : IsSemigroup _≈_ _∙_
 isSemigroup = Semigroup.isSemigroup semigroup
@@ -77,7 +77,7 @@ isEquivalence = Setoid.isEquivalence ≈-setoid
 
 ----
 commutativeMonoid : CommutativeMonoid a l
-commutativeMonoid = CancelativeAbelianMonoid.commutativeMonoid m
+commutativeMonoid = CancellativeAbelianMonoid.commutativeMonoid m
 
 isCommutativeMonoid : IsCommutativeMonoid _≈_ _∙_ ε
 isCommutativeMonoid 
@@ -88,8 +88,8 @@ comm : Commutative _≈_ _∙_
 comm = IsCommutativeMonoid.comm isCommutativeMonoid
 
 cancel : Cancel _≈_ _∙_
-cancel = IsCancelativeAbelianMonoid.cancel 
-         (CancelativeAbelianMonoid.isCancelativeAbelianMonoid m)
+cancel = IsCancellativeAbelianMonoid.cancel 
+         (CancellativeAbelianMonoid.isCancellativeAbelianMonoid m)
 
 square : (x : Carrier) -> Carrier
 square x = x ∙ x

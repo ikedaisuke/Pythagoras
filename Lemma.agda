@@ -1,8 +1,8 @@
 open import Level
 
-open import CancelativeAbelianMonoid
+open import CancellativeAbelianMonoid
 
-module Lemma (a l : Level) (m : CancelativeAbelianMonoid a l)
+module Lemma (a l : Level) (m : CancellativeAbelianMonoid a l)
 where
 
 {-

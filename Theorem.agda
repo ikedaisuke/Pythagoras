@@ -1,11 +1,11 @@
 open import Level
 
-open import CancelativeAbelianMonoid
+open import CancellativeAbelianMonoid
 
-module Theorem (a : Level) (m : CancelativeAbelianMonoid a a)
+module Theorem (a : Level) (m : CancellativeAbelianMonoid a a)
 where
 
--- it seems important that the two level of CancelativeAbelianMonoid
+-- it seems important that the two level of CancellativeAbelianMonoid
 -- should be equal for proof of the theorem as follows.
 
 {-
