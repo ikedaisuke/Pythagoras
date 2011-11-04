@@ -38,9 +38,18 @@ succ m * n = n + m * n
   succ m + (n + o)
   ∎
 
+m+1+n≡1+m+n : ∀ m n → m + succ n ≡ succ (m + n)
+m+1+n≡1+m+n one n = refl
+m+1+n≡1+m+n (succ m) n = cong succ (m+1+n≡1+m+n m n)
+
 +-comm : Commutative _≡_ _+_
-+-comm one n = {!!} -- succ n ≡ n + one
-+-comm (succ m) n = {!!}
++-comm one one = refl
++-comm one (succ n) = sym (cong succ (+-comm n one))
++-comm (succ m) n = begin
+  succ (m + n) ≡⟨ cong succ (+-comm m n) ⟩
+  succ (n + m) ≡⟨ sym (m+1+n≡1+m+n n m) ⟩
+  n + succ m
+  ∎
 
 *-distrib-right-+ :  ∀ x y z → ((y + z) * x) ≡ ((y * x) + (z * x))
 *-distrib-right-+ m one o = refl
@@ -87,7 +96,6 @@ m*1+n≡m+mn (succ m) n = begin
   n * succ m
   ∎
 
--- postulate *-comm  : Commutative _≡_ _*_
 postulate *-leftIdentity : LeftIdentity _≡_ one _*_
 
 *-isCommutativeMonoid : IsCommutativeMonoid _≡_ _*_ one
