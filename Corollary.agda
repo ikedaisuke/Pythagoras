@@ -2,18 +2,25 @@ module Corollary where
 
 open import Algebra
 import Algebra.FunctionProperties as FunctionProperties
-open import Algebra.Structures
 open FunctionProperties
-open import Data.Nat
-open import Data.Nat.Properties
+open import Algebra.Structures
 open import Level
 open import Relation.Binary.Core
+open import Relation.Binary.PropositionalEquality
+  as PropEq
+open PropEq.≡-Reasoning
+
+data NatStar : Set where
+  one  : NatStar
+  succ : NatStar -> NatStar
+
+postulate _*_ : NatStar -> NatStar -> NatStar
+
+postulate *-isCommutativeMonoid : IsCommutativeMonoid _≡_ _*_ one
 
 import Cancel
-open Cancel {_} {_} {ℕ} (_≡_)
+open Cancel {_} {_} {NatStar} (_≡_)
 open import CancelativeAbelianMonoid
-
-open IsCommutativeSemiring
 
 -- cancel : Cancel _*_
 -- cancel = {!!}
@@ -21,19 +28,20 @@ open IsCommutativeSemiring
 postulate cancel : Cancel _*_
 
 isCancelativeAbelianMonoid : 
-  IsCancelativeAbelianMonoid _≡_ _*_ 1
+  IsCancelativeAbelianMonoid _≡_ _*_ one
 isCancelativeAbelianMonoid
   = record {
-      isCommutativeMonoid = *-isCommutativeMonoid isCommutativeSemiring
+      isCommutativeMonoid = *-isCommutativeMonoid
+      -- isCommutativeMonoid = *-isCommutativeMonoid isCommutativeSemiring
     ; cancel = cancel 
     }
 
 m : CancelativeAbelianMonoid Level.zero Level.zero
 m = record {
-      Carrier = ℕ
+      Carrier = NatStar
     ; _≈_ = _≡_
     ; _∙_ = _*_
-    ; ε   = 1
+    ; ε   = one
     ; isCancelativeAbelianMonoid = isCancelativeAbelianMonoid
     }
 
@@ -45,12 +53,12 @@ open Theorem Level.zero m
 
 -- lemma1 : 2 isPrime
 -- lemma1 = {!!}
-postulate lemma1 : 2 isPrime
+postulate lemma1 : (succ one) isPrime
 
 -- lemma2 : Noether Carrier (multiple 2)
 -- lemma2 = {!!}
-postulate lemma2 : Noether Carrier (multiple 2)
+postulate lemma2 : Noether Carrier (multiple (succ one))
 
-corollary : 2 isNotSquare
-corollary = theorem 2 lemma1 lemma2
+corollary : (succ one) isNotSquare
+corollary = theorem (succ one) lemma1 lemma2
 
