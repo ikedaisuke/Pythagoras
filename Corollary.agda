@@ -30,7 +30,12 @@ succ m * n = n + m * n
 -- copy properties from the Agda standard library
 -- Data.Nat.Properties
 
-postulate +-assoc : Associative _≡_ _+_
++-assoc : Associative _≡_ _+_
++-assoc one _ _ = refl
++-assoc (succ m) n o = begin
+  succ m + n + o ≡⟨ cong succ (+-assoc m n o) ⟩
+  succ m + (n + o)
+  ∎
 
 *-distrib-right-+ :  ∀ x y z → ((y + z) * x) ≡ ((y * x) + (z * x))
 *-distrib-right-+ m one o = refl
