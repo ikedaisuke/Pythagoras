@@ -2,6 +2,7 @@ module Corollary where
 
 open import Algebra
 import Algebra.FunctionProperties as FunctionProperties
+open import Function
 open FunctionProperties
 open import Algebra.Structures
 open import Level
@@ -14,6 +15,8 @@ data NatStar : Set where
   one  : NatStar
   succ : NatStar -> NatStar
 
+-- copy oparators from the Agda standard library
+-- Data.Nat
 infixl 6 _+_
 
 _+_ : NatStar -> NatStar -> NatStar
@@ -24,7 +27,23 @@ _*_ : NatStar -> NatStar -> NatStar
 one * n = n
 succ m * n = n + m * n
 
-postulate *-assoc : Associative _≡_ _*_
+-- copy properties from the Agda standard library
+-- Data.Nat.Properties
+
+postulate *-distrib-right-+ : ∀ x y z → ((y + z) * x) ≡ ((y * x) + (z * x))
+-- *-distrib-right-+ = {!!}
+
+*-assoc : Associative _≡_ _*_
+*-assoc one n o = refl
+*-assoc (succ m) n o = begin -- (succ m * n) * o ≡ succ m * (n * o)
+    (succ m * n) * o    ≡⟨ refl ⟩
+    (n + m * n) * o     ≡⟨ *-distrib-right-+ o n (m * n) ⟩
+    n * o + (m * n) * o ≡⟨ cong (λ x → n * o + x) $ *-assoc m n o ⟩
+    n * o + m * (n * o) ≡⟨ refl ⟩
+    succ m * (n * o)
+  ∎
+
+-- postulate *-assoc : Associative _≡_ _*_
 postulate *-comm  : Commutative _≡_ _*_
 postulate *-leftIdentity : LeftIdentity _≡_ one _*_
 
