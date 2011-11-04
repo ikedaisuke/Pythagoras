@@ -11,6 +11,7 @@ open import Relation.Binary.PropositionalEquality
   as PropEq
 open PropEq.≡-Reasoning
 
+
 data NatStar : Set where
   one  : NatStar
   succ : NatStar -> NatStar
@@ -37,6 +38,10 @@ succ m * n = n + m * n
   succ m + (n + o)
   ∎
 
++-comm : Commutative _≡_ _+_
++-comm one n = {!!} -- succ n ≡ n + one
++-comm (succ m) n = {!!}
+
 *-distrib-right-+ :  ∀ x y z → ((y + z) * x) ≡ ((y * x) + (z * x))
 *-distrib-right-+ m one o = refl
 *-distrib-right-+ m (succ n) o = begin
@@ -50,14 +55,39 @@ succ m * n = n + m * n
 *-assoc : Associative _≡_ _*_
 *-assoc one n o = refl
 *-assoc (succ m) n o = begin
-    (succ m * n) * o    ≡⟨ refl ⟩
-    (n + m * n) * o     ≡⟨ *-distrib-right-+ o n (m * n) ⟩
-    n * o + (m * n) * o ≡⟨ cong (λ x → n * o + x) $ *-assoc m n o ⟩
-    n * o + m * (n * o) ≡⟨ refl ⟩
-    succ m * (n * o)
+  (succ m * n) * o    ≡⟨ refl ⟩
+  (n + m * n) * o     ≡⟨ *-distrib-right-+ o n (m * n) ⟩
+  n * o + (m * n) * o ≡⟨ cong (λ x → n * o + x) $ *-assoc m n o ⟩
+  n * o + m * (n * o) ≡⟨ refl ⟩
+  succ m * (n * o)
   ∎
 
-postulate *-comm  : Commutative _≡_ _*_
+*-one : ∀ n -> n * one ≡ n
+*-one one = refl
+*-one (succ m) = cong succ (*-one m)
+
+m*1+n≡m+mn : ∀ m n → m * succ n ≡ m + m * n
+m*1+n≡m+mn one n = refl
+m*1+n≡m+mn (succ m) n = begin
+  succ (n + m * succ n)  ≡⟨ refl ⟩
+  succ n + m * succ n    ≡⟨ cong (λ x → succ n + x) (m*1+n≡m+mn m n) ⟩
+  succ n + (m + m * n)   ≡⟨ refl ⟩
+  succ (n + (m + m * n)) ≡⟨ cong succ (sym $ +-assoc n m (m * n)) ⟩
+  succ (n + m + m * n)   ≡⟨ cong (λ x → succ (x + m * n)) (+-comm n m) ⟩
+  succ (m + n + m * n)   ≡⟨ cong succ (+-assoc m n (m * n)) ⟩
+  succ (m + (n + m * n)) ≡⟨ refl ⟩
+  succ (m + (n + m * n))
+  ∎
+
+*-comm  : Commutative _≡_ _*_
+*-comm one n = sym (*-one n)
+*-comm (succ m) n = begin
+  n + m * n ≡⟨ cong (λ x → n + x) (*-comm m n) ⟩
+  n + n * m ≡⟨ sym (m*1+n≡m+mn n m) ⟩
+  n * succ m
+  ∎
+
+-- postulate *-comm  : Commutative _≡_ _*_
 postulate *-leftIdentity : LeftIdentity _≡_ one _*_
 
 *-isCommutativeMonoid : IsCommutativeMonoid _≡_ _*_ one
@@ -77,7 +107,7 @@ open import CancelativeAbelianMonoid
 
 -- cancel : Cancel _*_
 -- cancel = {!!}
--- can prove by induction, commutative, distributive, etc.
+-- can be proved by induction, commutative, distributive, etc.
 postulate cancel : Cancel _*_
 
 isCancelativeAbelianMonoid : 
