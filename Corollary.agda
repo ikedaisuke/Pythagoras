@@ -1,8 +1,8 @@
 module Corollary where
 
 open import Algebra
-import Algebra.FunctionProperties as FunctionProperties
 open import Function
+import Algebra.FunctionProperties as FunctionProperties
 open FunctionProperties
 open import Algebra.Structures
 open import Level
@@ -30,12 +30,21 @@ succ m * n = n + m * n
 -- copy properties from the Agda standard library
 -- Data.Nat.Properties
 
-postulate *-distrib-right-+ : ∀ x y z → ((y + z) * x) ≡ ((y * x) + (z * x))
--- *-distrib-right-+ = {!!}
+postulate +-assoc : Associative _≡_ _+_
+
+*-distrib-right-+ :  ∀ x y z → ((y + z) * x) ≡ ((y * x) + (z * x))
+*-distrib-right-+ m one o = refl
+*-distrib-right-+ m (succ n) o = begin
+  (succ n + o) * m    ≡⟨ refl ⟩
+  m + (n + o) * m     ≡⟨ cong (_+_ m) $ *-distrib-right-+ m n o ⟩
+  m + (n * m + o * m) ≡⟨ sym $ +-assoc m (n * m) (o * m) ⟩
+  m + n * m + o * m   ≡⟨ refl ⟩
+  succ n * m + o * m
+  ∎
 
 *-assoc : Associative _≡_ _*_
 *-assoc one n o = refl
-*-assoc (succ m) n o = begin -- (succ m * n) * o ≡ succ m * (n * o)
+*-assoc (succ m) n o = begin
     (succ m * n) * o    ≡⟨ refl ⟩
     (n + m * n) * o     ≡⟨ *-distrib-right-+ o n (m * n) ⟩
     n * o + (m * n) * o ≡⟨ cong (λ x → n * o + x) $ *-assoc m n o ⟩
@@ -43,7 +52,6 @@ postulate *-distrib-right-+ : ∀ x y z → ((y + z) * x) ≡ ((y * x) + (z * x)
     succ m * (n * o)
   ∎
 
--- postulate *-assoc : Associative _≡_ _*_
 postulate *-comm  : Commutative _≡_ _*_
 postulate *-leftIdentity : LeftIdentity _≡_ one _*_
 
