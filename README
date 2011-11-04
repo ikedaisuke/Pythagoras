@@ -32,8 +32,8 @@ Property.agda
   helper functions of a cancellative abelian monoid
 Theorem.agda
   the main theorem which is originally proved by Thierry Coquand;
-  square root of a prime element in a cancellative abelian monoid
-  is irrational
+  any prime cannot be a square of rational in cancellative abelian
+  monoid
 
 Note:
 agda.alfa is written by Thierry Coquand.
