@@ -24,7 +24,20 @@ _*_ : NatStar -> NatStar -> NatStar
 one * n = n
 succ m * n = n + m * n
 
-postulate *-isCommutativeMonoid : IsCommutativeMonoid _≡_ _*_ one
+postulate *-assoc : Associative _≡_ _*_
+postulate *-comm  : Commutative _≡_ _*_
+postulate *-leftIdentity : LeftIdentity _≡_ one _*_
+
+*-isCommutativeMonoid : IsCommutativeMonoid _≡_ _*_ one
+*-isCommutativeMonoid = record 
+  { isSemigroup = record
+      { isEquivalence = PropEq.isEquivalence
+      ; assoc         = *-assoc
+      ; ∙-cong        = cong₂ _*_
+      }
+  ; identityˡ = *-leftIdentity
+  ; comm      = *-comm
+  }
 
 import Cancel
 open Cancel {_} {_} {NatStar} (_≡_)
@@ -40,7 +53,6 @@ isCancelativeAbelianMonoid :
 isCancelativeAbelianMonoid
   = record {
       isCommutativeMonoid = *-isCommutativeMonoid
-      -- isCommutativeMonoid = *-isCommutativeMonoid isCommutativeSemiring
     ; cancel = cancel 
     }
 
