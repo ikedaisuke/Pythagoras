@@ -25,6 +25,10 @@ Corollary.agda
   is irrational
 Lemma.agda
   lemmata for the proof of the main theorem in Theorem.agda
+NatStar.agda
+  A set of natural numbers without zero, and its multiplication
+NatStarProperties.agda
+  Properties of NatStar
 Noether.agda
   the definitions of Noetherian and Fermat's infinite descent
   principle
