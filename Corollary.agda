@@ -14,7 +14,15 @@ data NatStar : Set where
   one  : NatStar
   succ : NatStar -> NatStar
 
-postulate _*_ : NatStar -> NatStar -> NatStar
+infixl 6 _+_
+
+_+_ : NatStar -> NatStar -> NatStar
+one + n = succ n
+succ m + n = succ (m + n)
+
+_*_ : NatStar -> NatStar -> NatStar
+one * n = n
+succ m * n = n + m * n
 
 postulate *-isCommutativeMonoid : IsCommutativeMonoid _≡_ _*_ one
 
