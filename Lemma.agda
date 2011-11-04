@@ -106,6 +106,7 @@ lemma7 : (p x : Carrier) -> p isPrime ->
 lemma7 p x s t = ⊎-elim (λ y → y) (λ y → y) (s x x t)
 -- can we prove above without ⊎-elim?
 
+-- required by proof of lemma9
 lemma8 : (p x y : Carrier) -> p isPrime ->
          (((p ∙ square x)) ≈ square y) ->
          ∃ (λ z -> ((p ∙ z) ≈ y) × ((p ∙ square z) ≈ square x))
@@ -116,6 +117,7 @@ lemma8 p x y s t
             rem = lemma7 p y s ((square x) , t)
 -- can we prove above without ∃-elim?
 
+-- needed for the theorem
 lemma9 : (p : Carrier) -> (h2 : p isPrime) -> (x : Carrier) ->
          (h3 : Square p x) -> 
          ∃ (λ (x1 : Carrier) -> ((p ∙ x1 ≈ x) × Square p x1))
@@ -149,3 +151,4 @@ lemma9 p h2 x h3
                                                    h6
                                       in
                                       x1 , (rem3 , (y1 , rem4)))))
+-- TODO: rewrite above more simple

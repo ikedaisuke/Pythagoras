@@ -95,17 +95,17 @@ square : (x : Carrier) -> Carrier
 square x = x ∙ x
 
 multiple : (p : Carrier) -> Rel Carrier l
-multiple p = λ x y -> (p ∙ x) ≈ y
+multiple p = λ (x y : Carrier) -> (p ∙ x) ≈ y 
 
 _divides_ : Rel Carrier (l ⊔ a)
 x divides y = ∃ (λ z → (x ∙ z) ≈ y)
 
 _isPrime : Pred Carrier (l ⊔ a)
-p isPrime = (x y : Carrier) -> (p divides (x ∙ y)) ->
+p isPrime = (x y : Carrier) -> p divides (x ∙ y) ->
             (p divides x) ⊎ (p divides y)
 
 Square : Rel Carrier (l ⊔ a)
-Square p x = ∃ (λ y -> (p ∙ (square x)) ≈ square y)
+Square = λ (p x : Carrier) → ∃ (λ y → p ∙ square x ≈ square y)
 
 _isNotSquare : Pred Carrier (l ⊔ a)
 p isNotSquare = (x y : Carrier) → ¬ ((p ∙ square x) ≈ square y)

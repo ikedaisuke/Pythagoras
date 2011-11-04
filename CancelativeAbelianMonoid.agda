@@ -11,15 +11,17 @@ open import Algebra.Structures
 open FunctionProperties
 open import Level
 open import Relation.Binary
-open import Cancel
+
+import Cancel
 
 record IsCancelativeAbelianMonoid 
          {a l} {A : Set a} (≈ : Rel A l) (_∙_ : Op₂ A)
          (ε : A) : Set (a ⊔ l) where
   open FunctionProperties ≈
+  open Cancel ≈
   field
     isCommutativeMonoid : IsCommutativeMonoid ≈ _∙_ ε
-    cancel : Cancel ≈ _∙_
+    cancel : Cancel _∙_
 
   open IsCommutativeMonoid isCommutativeMonoid public
 
@@ -41,4 +43,3 @@ record CancelativeAbelianMonoid c l : Set (suc (c ⊔ l)) where
 
   open CommutativeMonoid commutativeMonoid public 
     using (setoid; semigroup; rawMonoid; monoid)
-
