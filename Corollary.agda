@@ -96,7 +96,8 @@ m*1+n≡m+mn (succ m) n = begin
   n * succ m
   ∎
 
-postulate *-leftIdentity : LeftIdentity _≡_ one _*_
+*-leftIdentity : LeftIdentity _≡_ one _*_
+*-leftIdentity x = refl
 
 *-isCommutativeMonoid : IsCommutativeMonoid _≡_ _*_ one
 *-isCommutativeMonoid = record 
