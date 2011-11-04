@@ -14,5 +14,26 @@ the original proof on Agda1/Alfa
 the paper
   http://www.cs.ru.nl/~freek/comparison/comparison.pdf
 
+Files:
+Cancel.agda 
+  the definition of cancel
+CancellativeAbelianMonoid.agda
+  the definition of cancellative abelian monoid
+Corollary.agda
+  the set of the natural numbers without zero and multiplication
+  forms a cancellative abelian modoid. Thus, square root of two
+  is irrational
+Lemma.agda
+  lemmata for the proof of the main theorem in Theorem.agda
+Noether.agda
+  the definitions of Noetherian and Fermat's infinite descent
+  principle
+Property.agda
+  helper functions of a cancellative abelian monoid
+Theorem.agda
+  the main theorem which is originally proved by Thierry Coquand;
+  square root of a prime element in a cancellative abelian monoid
+  is irrational
+
 Note:
 agda.alfa is written by Thierry Coquand.
