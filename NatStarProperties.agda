@@ -145,6 +145,18 @@ cancel-*-right (succ x) (succ y) z p
   = cong succ (cancel-*-right x y z 
       (cancel-+-left (x * z) (y * z) z p))
 
+cancel-*-left : ∀ x y z -> z * x ≡ z * y -> x ≡ y
+cancel-*-left x y z p 
+  = cancel-*-right x y z (lemma x y z p)
+  where lemma : ∀ x y z -> z * x ≡ z * y -> x * z ≡ y * z
+        lemma x y z p = begin
+          x * z ≡⟨ *-comm x z ⟩
+          z * x ≡⟨ p ⟩
+          z * y ≡⟨ *-comm z y ⟩
+          y * z
+          ∎
+
+
 {-
 cancel-*-left : ∀ x y z -> z * x ≡ z * y -> x ≡ y
 cancel-*-left one one z p = refl
