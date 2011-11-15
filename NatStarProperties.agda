@@ -3,6 +3,7 @@ module NatStarProperties where
 open import Function
 open import Algebra.FunctionProperties
 open import Algebra.Structures
+open import Data.Empty
 open import Relation.Binary.Core
 open import Relation.Binary.PropositionalEquality
   as PropEq
@@ -91,3 +92,65 @@ m*1+n≡m+mn (succ m) n = begin
   ; identityˡ = *-leftIdentity
   ; comm      = *-comm
   }
+
+pred : NatStar -> NatStar
+pred one = one
+pred (succ m) = m
+
+≡-succ-elim : ∀ x y -> succ x ≡ succ y -> x ≡ y
+≡-succ-elim x y p = cong pred p
+
+cancel-+-left : ∀ x y z -> z + x ≡ z + y -> x ≡ y
+cancel-+-left x y one p = ≡-succ-elim x y p
+cancel-+-left x y (succ z) p 
+  = cancel-+-left x y z (cong pred p)
+
+cancel-+-right : ∀ x y z -> x + z ≡ y + z -> x ≡ y
+cancel-+-right x y z p 
+  = cancel-+-left x y z q
+      where q : z + x ≡ z + y
+            q = begin
+              z + x ≡⟨ +-comm z x ⟩
+              x + z ≡⟨ p ⟩
+              y + z ≡⟨ +-comm y z ⟩
+              z + y
+              ∎
+
++-⊥-right : ∀ x y -> x ≡ x + y -> ⊥
++-⊥-right one y ()
++-⊥-right (succ x) y p 
+  = +-⊥-right x y (≡-succ-elim x (x + y) p)
+
++-⊥-left : ∀ x y -> x + y ≡ x -> ⊥
++-⊥-left one y ()
++-⊥-left (succ x) y p 
+  = +-⊥-left x y (≡-succ-elim (x + y) x p)
+
+cancel-*-right : ∀ x y z -> x * z ≡ y * z -> x ≡ y
+cancel-*-right one one z p = refl
+cancel-*-right one (succ y) one p with begin
+  one ≡⟨ p ⟩
+  succ (y * one) ≡⟨ cong succ (*-comm y one) ⟩
+  succ (one * y) ≡⟨ cong succ refl ⟩
+  succ y
+  ∎
+... | ()
+cancel-*-right one (succ y) (succ z) p 
+  with +-⊥-right (succ (succ z)) (y * succ z) (cong succ p)
+... | ()
+cancel-*-right (succ x) one z p 
+  with +-⊥-left (succ z) (x * z) (cong succ p)
+... | ()
+cancel-*-right (succ x) (succ y) z p 
+  = cong succ (cancel-*-right x y z 
+      (cancel-+-left (x * z) (y * z) z p))
+
+{-
+cancel-*-left : ∀ x y z -> z * x ≡ z * y -> x ≡ y
+cancel-*-left one one z p = refl
+cancel-*-left one (succ y) one p = p
+cancel-*-left one (succ y) (succ z) p = {!!}
+cancel-*-left (succ x) one z p = {!!}
+cancel-*-left (succ x) (succ y) z p 
+  = {!!}
+-}
