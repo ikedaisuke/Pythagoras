@@ -155,14 +155,3 @@ cancel-*-left x y z p
           z * y ≡⟨ *-comm z y ⟩
           y * z
           ∎
-
-
-{-
-cancel-*-left : ∀ x y z -> z * x ≡ z * y -> x ≡ y
-cancel-*-left one one z p = refl
-cancel-*-left one (succ y) one p = p
-cancel-*-left one (succ y) (succ z) p = {!!}
-cancel-*-left (succ x) one z p = {!!}
-cancel-*-left (succ x) (succ y) z p 
-  = {!!}
--}
