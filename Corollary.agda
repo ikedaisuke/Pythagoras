@@ -18,24 +18,12 @@ import Cancel
 open Cancel {_} {_} {NatStar} (_≡_)
 open import CancellativeAbelianMonoid
 
--- z * x ≡ z * y → x ≡ y
-{-
-cancel : Cancel _*_
-cancel x y one p = p
-cancel one one (succ z) p = refl
-cancel one (succ y) (succ z) p = {!!}
-cancel (succ x) one (succ z) p = {!!}
-cancel (succ x) (succ y) (succ z) p = {!!}
--}
--- can be proved by induction, commutative, distributive, etc.
-postulate cancel : Cancel _*_
-
 isCancellativeAbelianMonoid : 
   IsCancellativeAbelianMonoid _≡_ _*_ one
 isCancellativeAbelianMonoid
   = record {
       isCommutativeMonoid = *-isCommutativeMonoid
-    ; cancel = cancel 
+    ; cancel = cancel-*-left
     }
 
 m : CancellativeAbelianMonoid Level.zero Level.zero
